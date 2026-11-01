@@ -61,8 +61,7 @@ import {
   AuctionIcon,
   Component,
   ComputerTerminal02Icon,
-  ArrowUpRight01Icon,
-} from '@hugeicons/core-free-icons';
+  } from '@hugeicons/core-free-icons';
 
 // ─── Imports: data registries (used to build nav category lists) ──────────────
 import { allAnimatedCategories } from '@/data/animated-components-metadata';

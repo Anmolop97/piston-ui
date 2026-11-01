@@ -2,12 +2,12 @@
 // Do not edit by hand.
 
 export const opsMetadata = {
-  productName: "watermelon-platform",
+  productName: "piston-ui",
   publicProductName: 'Watermelon UI',
-  packageVersion: "0.0.0",
+  packageVersion: "1.0.0",
   branch: "main",
-  commitSha: "8b1fc95bc0244a85b05e7aa85a68e60302ad7971",
-  shortSha: "8b1fc95",
-  committedAt: "2026-09-27T01:15:56+05:30",
-  generatedAt: "2026-09-27T01:15:56+05:30",
+  commitSha: "59f4fd09ccb1356bf0cf707081723119cfc2c68c",
+  shortSha: "59f4fd0",
+  committedAt: "2026-11-02T02:52:05+05:30",
+  generatedAt: "2026-11-02T02:52:05+05:30",
 } as const;

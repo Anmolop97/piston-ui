@@ -1,15 +1,13 @@
-import React, { createContext, useContext, useEffect, useRef } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 
 interface SmoothScrollContextValue {
-  lenis: Lenis | null;
   scrollTo: (target: number | string | HTMLElement, options?: any) => void;
 }
 
 const SmoothScrollContext = createContext<SmoothScrollContextValue>({
-  lenis: null,
   scrollTo: () => {},
 });
 
@@ -50,14 +48,16 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
     }
   }, [location.pathname]);
 
-  const scrollTo = (target: number | string | HTMLElement, options?: any) => {
+  const scrollTo = useCallback((target: number | string | HTMLElement, options?: any) => {
     if (lenisRef.current) {
       lenisRef.current.scrollTo(target, options);
     }
-  };
+  }, []);
+
+  const contextValue = useMemo(() => ({ scrollTo }), [scrollTo]);
 
   return (
-    <SmoothScrollContext.Provider value={{ lenis: lenisRef.current, scrollTo }}>
+    <SmoothScrollContext.Provider value={contextValue}>
       {children}
     </SmoothScrollContext.Provider>
   );

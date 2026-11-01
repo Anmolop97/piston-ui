@@ -171,7 +171,7 @@ export default function HomePage() {
           title="Animated Components"
           viewAllUrl="/animated-components"
         >
-          {registry.slice(0, 8).map((item, index) => (
+          {registry.slice(0, 8).map((item) => (
             <div key={item.slug} className="w-[300px] sm:w-[380px] lg:w-[420px] shrink-0 snap-start">
               <RegistryCard
                 item={item}

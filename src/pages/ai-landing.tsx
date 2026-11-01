@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
-  Sparkles,
   ArrowRight,
   Check,
   Zap,
   ShieldCheck,
-  Cpu,
   Layers,
   Terminal,
-  Activity,
-  Code2,
 } from 'lucide-react';
 
 export default function AiLandingPage() {
