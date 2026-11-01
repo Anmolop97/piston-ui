@@ -1,5 +1,5 @@
 
-import { Facebook, Instagram, Twitter } from 'lucide-react';
+import { FaFacebook as Facebook, FaInstagram as Instagram, FaXTwitter as Twitter } from 'react-icons/fa6';
 import { Badge } from '@/components/base-ui/badge';
 
 export interface SocialLink {

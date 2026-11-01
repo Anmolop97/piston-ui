@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Input } from '@/components/base-ui/input';
 import { Button } from '@/components/base-ui/button';
-import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { FaFacebook as Facebook, FaXTwitter as Twitter, FaInstagram as Instagram, FaLinkedin as Linkedin } from 'react-icons/fa6';
 import { cn } from '@/lib/utils';
 
 export interface FooterLink {

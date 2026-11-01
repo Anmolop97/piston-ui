@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { GithubIcon, NewTwitterIcon, Menu01Icon, Cancel01Icon } from "hugeicons-react";
 import { cn } from "@/lib/utils";
 import LogoIcon from "@/assets/logo-icon";
-import { ProductsBar } from "@/components/layout/products-bar";
+
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -26,7 +26,7 @@ export default function Navbar() {
           : "bg-transparent border-transparent"
       )}
     >
-      <ProductsBar />
+      
       <div
         className={cn(
           "container mx-auto px-4 md:px-8 lg:px-12 xl:px-16 flex items-center justify-between transition-all duration-300",

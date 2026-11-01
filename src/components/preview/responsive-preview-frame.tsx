@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils';
 import {
   type ReactNode,
+  useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -138,43 +139,48 @@ export function ResponsivePreviewFrame({
     return VIEWPORTS[viewport];
   }, [viewport]);
 
+  const handleLoad = useCallback(async () => {
+    const frame = frameRef.current;
+    if (!frame) return;
+    const frameDocument = frame.contentDocument;
+    if (!frameDocument) {
+      setIsFrameReady(true);
+      return;
+    }
+
+    teardownInteractionsRef.current?.();
+
+    const handleClick = (event: Event) => {
+      const target = event.target as HTMLElement | null;
+      const anchor = target?.closest('a[href]');
+      if (anchor) {
+        event.preventDefault();
+      }
+    };
+
+    const handleSubmit = (event: Event) => {
+      event.preventDefault();
+    };
+
+    frameDocument.addEventListener('click', handleClick);
+    frameDocument.addEventListener('submit', handleSubmit);
+    teardownInteractionsRef.current = () => {
+      frameDocument.removeEventListener('click', handleClick);
+      frameDocument.removeEventListener('submit', handleSubmit);
+    };
+
+    if (!previewUrl) {
+      await syncDocumentStyles(frameDocument);
+      setMountNode(
+        frameDocument.getElementById('preview-root') as HTMLDivElement | null,
+      );
+    }
+    setIsFrameReady(true);
+  }, [previewUrl]);
+
   useEffect(() => {
     const frame = frameRef.current;
     if (!frame) return;
-
-    const handleLoad = async () => {
-      const frameDocument = frame.contentDocument;
-      if (!frameDocument) return;
-
-      teardownInteractionsRef.current?.();
-
-      const handleClick = (event: Event) => {
-        const target = event.target as HTMLElement | null;
-        const anchor = target?.closest('a[href]');
-        if (anchor) {
-          event.preventDefault();
-        }
-      };
-
-      const handleSubmit = (event: Event) => {
-        event.preventDefault();
-      };
-
-      frameDocument.addEventListener('click', handleClick);
-      frameDocument.addEventListener('submit', handleSubmit);
-      teardownInteractionsRef.current = () => {
-        frameDocument.removeEventListener('click', handleClick);
-        frameDocument.removeEventListener('submit', handleSubmit);
-      };
-
-      if (!previewUrl) {
-        await syncDocumentStyles(frameDocument);
-        setMountNode(
-          frameDocument.getElementById('preview-root') as HTMLDivElement | null,
-        );
-      }
-      setIsFrameReady(true);
-    };
 
     frame.addEventListener('load', handleLoad);
 
@@ -198,14 +204,23 @@ export function ResponsivePreviewFrame({
 </html>`;
     }
 
+    // Safety fallback: if readyState already complete or timeout
+    if (frame.contentDocument?.readyState === 'complete') {
+      handleLoad();
+    }
+    const timer = setTimeout(() => {
+      setIsFrameReady(true);
+    }, 1200);
+
     return () => {
+      clearTimeout(timer);
       frame.removeEventListener('load', handleLoad);
       teardownInteractionsRef.current?.();
       teardownInteractionsRef.current = null;
       setMountNode(null);
       setIsFrameReady(false);
     };
-  }, [previewUrl]);
+  }, [previewUrl, handleLoad]);
 
   useEffect(() => {
     if (previewUrl) return;
@@ -268,6 +283,7 @@ export function ResponsivePreviewFrame({
         >
           <iframe
             ref={frameRef}
+            onLoad={handleLoad}
             title={`responsive-preview-${viewport}`}
             className={cn(
               'h-full w-full border-0 bg-transparent transition-opacity duration-300',

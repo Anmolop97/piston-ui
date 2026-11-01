@@ -1,5 +1,6 @@
 import React from 'react';
-import { Twitter, Linkedin, Github, Dribbble, Globe, Mail } from 'lucide-react';
+import { Globe, Mail } from 'lucide-react';
+import { FaXTwitter as Twitter, FaLinkedin as Linkedin, FaGithub as Github, FaDribbble as Dribbble } from 'react-icons/fa6';
 import { cn } from '@/lib/utils';
 
 export type SocialIconType = 'twitter' | 'linkedin' | 'github' | 'dribbble' | 'website' | 'email';

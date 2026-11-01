@@ -1,5 +1,5 @@
 import { motion, type Variants } from 'framer-motion';
-import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { FaFacebook as Facebook, FaXTwitter as Twitter, FaInstagram as Instagram, FaLinkedin as Linkedin } from 'react-icons/fa6';
 
 export interface FooterLink {
   label: string;

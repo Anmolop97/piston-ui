@@ -1,7 +1,9 @@
 'use client';
 
 import LogoIcon from '@/assets/logo-icon';
-import { ArrowRight, ChevronDown, Github, Figma, Framer, Slack, Twitch } from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
+import { FaGithub as Github, FaFigma as Figma, FaSlack as Slack, FaTwitch as Twitch } from 'react-icons/fa6';
+import { SiFramer as Framer } from 'react-icons/si';
 import { motion, type Variants } from 'motion/react';
 
 interface NavLink {

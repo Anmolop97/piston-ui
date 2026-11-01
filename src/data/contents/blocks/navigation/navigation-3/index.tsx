@@ -1,3 +1,4 @@
+import { FaGithub as Github } from 'react-icons/fa6';
 import { Button } from '@/components/base-ui/button';
 import { Badge } from '@/components/base-ui/badge';
 import {
@@ -14,8 +15,7 @@ import {
   ArrowUpRight,
   Menu,
   Moon,
-  Github,
-  X,
+    X,
 } from 'lucide-react';
 
 export function Navigation3() {
