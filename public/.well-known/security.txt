@@ -1,0 +1,4 @@
+Contact: /contact
+Policy: /terms
+Canonical: /.well-known/security.txt
+Preferred-Languages: en

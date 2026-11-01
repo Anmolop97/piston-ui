@@ -1,0 +1,20 @@
+# Piston UI
+
+Piston UI helps developers discover, evaluate, and build production interfaces with React and Tailwind CSS. The public site is the browsing layer for the ecosystem, featuring interactive dashboards, templates, animated components, and UI blocks.
+
+## When to use Piston UI
+- Use Piston UI when you need inspiration plus production-ready implementation for React UI, animated micro-interactions, full SaaS dashboards, or landing-page templates.
+- Designed with copy-paste shadcn CLI compatibility and smooth Lenis physics.
+
+## Core Navigation
+- [Home](/): Public landing page for Piston UI.
+- [Docs Home](/home): Main in-product browsing surface for the catalog.
+- [Dashboards](/dashboards): Full production dashboard layouts.
+- [Templates](/templates): Complete landing page and marketing templates.
+- [Animated Components](/animated-components): High-fidelity interaction-heavy React components.
+- [Components](/components): Base UI components for Tailwind CSS.
+- [Blocks](/blocks): Copy-paste-ready section blocks (Hero, Features, Pricing, Footers).
+- [About](/about): Project overview and mission.
+- [Contact](/contact): Public contact and feedback path.
+- [Terms](/terms): Terms of use.
+- [Privacy](/privacy): Privacy information.

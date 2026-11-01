@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <rect width="100" height="100" rx="24" fill="#84cc16" />
+  <!-- Option 4: The Happy Glint P Mascot -->
+  <path
+    d="M 28 14 C 18 14, 14 20, 14 30 L 14 74 C 14 82, 20 86, 28 86 C 36 86, 42 82, 42 74 L 42 56 C 48 58, 56 58, 64 56 C 80 52, 88 42, 88 30 C 88 16, 76 14, 56 14 Z"
+    fill="white"
+  />
+  <!-- Expressive Eyes -->
+  <circle cx="50" cy="32" r="5.5" fill="#0d1117" />
+  <circle cx="70" cy="32" r="5.5" fill="#0d1117" />
+  <!-- Eye Highlights -->
+  <circle cx="51.8" cy="30.5" r="1.8" fill="white" />
+  <circle cx="71.8" cy="30.5" r="1.8" fill="white" />
+  <!-- Cheerful Smile -->
+  <path
+    d="M 57 42 Q 60 45 63 42"
+    stroke="#0d1117"
+    stroke-width="2.2"
+    stroke-linecap="round"
+    fill="none"
+  />
+</svg>

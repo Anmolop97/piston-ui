@@ -1,0 +1,96 @@
+import { afterAll, describe, expect, it } from 'bun:test';
+import { mkdir, readFile, rm } from 'node:fs/promises';
+import path from 'node:path';
+import { fetchUpstreamRegistryItems, generateShadcnRegistry } from './generate-shadcn-registry';
+
+const testDirectory = path.join(import.meta.dir, '.registry-test-output');
+
+afterAll(async () => {
+  await rm(testDirectory, { recursive: true, force: true });
+});
+
+describe('generateShadcnRegistry', () => {
+  it('builds installable original and base variants from maintained components', async () => {
+    await mkdir(testDirectory, { recursive: true });
+    const { items, manifest } = await generateShadcnRegistry(
+      testDirectory,
+      path.join(testDirectory, 'registry.json'),
+    );
+
+    expect(items).toHaveLength(778);
+    expect(manifest.name).toBe('watermelon');
+
+    const item = JSON.parse(
+      await readFile(
+        path.join(testDirectory, 'card-split-accordian.json'),
+        'utf8',
+      ),
+    );
+
+    expect(item.$schema).toBe('https://ui.shadcn.com/schema/registry-item.json');
+    expect(item.type).toBe('registry:component');
+    expect(item.dependencies).toEqual(
+      expect.arrayContaining(['lucide-react', 'motion', 'react-icons', 'react-use-measure']),
+    );
+    expect(item.files[0].path).toBe(
+      'components/watermelon/card-split-accordian.tsx',
+    );
+    expect(item.files[0].content).toContain('export const AccordionApp');
+
+    const baseComponent = JSON.parse(
+      await readFile(path.join(testDirectory, 'accordion-1.json'), 'utf8'),
+    );
+    expect(baseComponent.title).toBe('Accordion 1');
+    expect(baseComponent.registryDependencies).toContain('accordion');
+    expect(baseComponent.files[0].content).toContain('Accordion');
+  });
+
+  it('writes the catalog beside the items so /r/registry.json resolves', async () => {
+    await mkdir(testDirectory, { recursive: true });
+    const { manifest } = await generateShadcnRegistry(
+      testDirectory,
+      path.join(testDirectory, 'registry-root.json'),
+    );
+
+    // the shadcn CLI swaps `registry` into the registered `/r/{name}.json`
+    // url, so the catalog has to exist at that path and not only at the root
+    const catalog = JSON.parse(
+      await readFile(path.join(testDirectory, 'registry.json'), 'utf8'),
+    );
+
+    expect(catalog.name).toBe('watermelon');
+    expect(catalog.$schema).toBe('https://ui.shadcn.com/schema/registry.json');
+    expect(catalog.items).toHaveLength(manifest.items.length);
+    // Registry directory rule: catalog files must not carry `content`.
+    for (const item of catalog.items) {
+      for (const file of item.files ?? []) expect(file).not.toHaveProperty('content');
+    }
+
+    const root = JSON.parse(
+      await readFile(path.join(testDirectory, 'registry-root.json'), 'utf8'),
+    );
+    expect(root).toEqual(catalog);
+  });
+
+  it('publishes upstream dashboards and blocks without overriding local items', async () => {
+    const upstream: Record<string, object> = {
+      'registry.json': { items: [{ name: 'medesk-dashboard' }, { name: 'accordion-1' }] },
+      'medesk-dashboard.json': { name: 'medesk-dashboard', type: 'registry:block', files: [] },
+    };
+    const server = Bun.serve({
+      port: 0,
+      fetch(request) {
+        const file = upstream[new URL(request.url).pathname.slice(1)];
+        return file ? Response.json(file) : new Response('Not found', { status: 404 });
+      },
+    });
+
+    try {
+      const items = await fetchUpstreamRegistryItems(new Set(['accordion-1']), server.url.origin);
+
+      expect(items.map((item) => item.name)).toEqual(['medesk-dashboard']);
+    } finally {
+      server.stop();
+    }
+  });
+});
