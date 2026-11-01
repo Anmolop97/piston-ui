@@ -14,7 +14,8 @@ import { GlobalCssInput } from './global-css-input';
 
 // Route config for breadcrumbs - easy to extend
 const routeConfig: Record<string, { label: string; href?: string }> = {
-  '/': { label: 'Home' },
+  '/': { label: 'Home', href: '/home' },
+  '/home': { label: 'Home', href: '/home' },
   '/animated-components': { label: 'Animated Components' },
   '/components': { label: 'Components' },
 
@@ -43,7 +44,10 @@ export const Navbar = () => {
 
     // Static routes
     if (routeConfig[path]) {
-      return [routeConfig[path]];
+      if (path === '/' || path === '/home') {
+        return [routeConfig[path]];
+      }
+      return [{ label: 'Home', href: '/home' }, routeConfig[path]];
     }
 
     // Animated Component detail page: /animated-components/:slug

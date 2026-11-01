@@ -46,6 +46,7 @@ import {
   DashboardSquare01Icon,
   Layout01Icon,
   SparklesIcon,
+  Home01Icon,
 } from '@/lib/hugeicons';
 
 // ─── Imports: icons sourced directly from core-free-icons ────────────────────
@@ -464,6 +465,14 @@ export function AppSidebar() {
             </span>
           </SidebarGroupLabel>
           <SidebarMenu className="flex flex-col gap-0.5">
+            {/* Home — live; links directly to /home */}
+            <ExploreCollapsibleItem
+              title="Home"
+              titleUrl="/home"
+              icon={Home01Icon}
+              items={[]}
+              isAnyChildActive={location.pathname === '/home' || location.pathname === '/'}
+            />
             {/* Dashboards — live; links directly to /dashboards */}
             <ExploreCollapsibleItem
               title="Dashboards"
